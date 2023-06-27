@@ -1,40 +1,39 @@
-// getting the form  elements in order to do dom manipulation
-
-const form = document.getElementById("search")
-const input = document.getElementById("search-input")
-const searchButton= document.getElementById("search-btn")
-
+const initialize = () =>{
 
 const userList=document.getElementById('user-list')
-let repoList=document.getElementById('repos-list')
-
+const  repoList=document.getElementById('repos-list')
+const form =document.getElementById(`search-form`)
+const inputName= document.querySelector("input#search")
 // adding an eventlistener for the submit form
-form.addEventListener("submit", (e) =>{
-    e.preventDefault() // preventing the form from submiting default
+form.addEventListener(`submit`, handleSearch) 
 // fetching the users by name 
-let username =e.target.search.value   /* retrieves the value entered into the search input field when the form is submitted and assigns it to the username variable */
-console.log('searching github')
+// let username =e.target.search.value   /* retrieves the value entered into the search input field when the form is submitted and assigns it to the username variable */
 
-fetch("https://api.github.com/search/users?q=octocat")
+function handleSearch(e){ 
+    console.log(e)
+     e.preventDefault()
+fetch(`https://api.github.com/search/users?q=${inputName.value}`)
 .then(resp => resp.json())
-.then(user =>{
+.then(user => {
+   
+  
 
     // using the data from the fetch to display users information
-    user.forEach((character) => {     // using a foreach loop to get each users details
-
-        let h4= document.createElement("h4"); 
-        h4.textContent = `${user.login}`   // creating an h4 to hold the user log in details
-       
-        let link =document.createElement("a");
-        link.href=`link to profile`
-
-        let img =document.createElement("img")
-        img.src=`{user.avatar}`
-
-})
-})
-.catch(error => {
-    console.log(error)
-})
+      
+        let userDetails=document.createElement(`li`)
+        userDetails.innerHTML =`
+        <div class ="content">
+        <h4> user: ${user.items[0].login}</h4>
+        <p> URL: ${user.items[0].html_url}</p>
+        <button class='repo-button' Repositories </button>
+        <img src=${user.items[0].avatar_url} />
+        </div>
+        `
+        userList.appendChild(userDetails)  
 
 })
+}
+ //adding an event listener to show more details about a person
+}
+ 
+ document.addEventListener(`DOMContentLoaded`, initialize)
