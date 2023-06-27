@@ -17,15 +17,20 @@ console.log('searching github')
 
 fetch("https://api.github.com/search/users?q=octocat")
 .then(resp => resp.json())
-.then(data =>{
+.then(user =>{
 
     // using the data from the fetch to display users information
-    data.forEach((character) => {     // using a foreach loop to get each users details
+    user.forEach((character) => {     // using a foreach loop to get each users details
 
-        let listItem = document.createElement("li");
-        listItem.textContent = character.name;
-        listItem.setAttribute('class', 'list-items')  // setting the list items with a class called list-items
-        userDetails.appendChild(listItem)      // adding each list item to the user-details
+        let h4= document.createElement("h4"); 
+        h4.textContent = `${user.login}`   // creating an h4 to hold the user log in details
+       
+        let link =document.createElement("a");
+        link.href=`link to profile`
+
+        let img =document.createElement("img")
+        img.src=`{user.avatar}`
+
 })
 })
 .catch(error => {
